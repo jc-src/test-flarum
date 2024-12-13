@@ -4,6 +4,9 @@
 up:
 	docker compose up -d
 
+stop:
+	docker compose down
+
 init:
 	docker compose up -d
 	docker compose exec -i apache82 bash -c 'composer install'

@@ -1,0 +1,13 @@
+# Start with the base image
+FROM mysql:8.0
+
+# Set Environment Variables
+ENV MYSQL_USER=flarum \
+    MYSQL_PASSWORD=flarum \
+    MYSQL_DATABASE=flarum
+
+# Expose MySQL port
+EXPOSE 3306
+
+# Copy DB Backup
+COPY build/dev/flarum.sql /docker-entrypoint-initdb.d/

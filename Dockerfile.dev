@@ -1,0 +1,37 @@
+# Start with the base image
+FROM ianmgg/php82:dev
+
+ARG UID=1000
+ARG GID=1000
+ARG USER=default_user
+
+#RUN groupmod -g $GID www-data && usermod -u $UID -g $GID www-data
+
+# Grouping copy operations to reduce layers
+COPY ./scripts/docker/config/apache/mpm_prefork.conf /etc/apache2/mods-enabled/mpm_prefork.conf
+COPY ./scripts/docker/config/php/startup-apache-dev.sh /usr/local/bin/startup
+COPY ./scripts/docker/config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY ./scripts/docker/config/php/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY ./scripts/docker/config/php/sessions.ini /usr/local/etc/php/conf.d/sessions.ini
+COPY ./scripts/docker/config/php/hide-deprecation.ini /usr/local/etc/php/conf.d/hide-deprecation.ini
+
+# Grouping RUN commands to reduce layers and use Docker's caching more efficiently
+RUN a2ensite 000-default.conf && \
+    mkdir -p /home/$USER/.composer && \
+    rm -rf /var/www/html && \
+    chmod 755 /usr/local/bin/startup
+
+# Set the working directory
+WORKDIR /var/www
+
+# Copy the application files
+COPY . /var/www/
+
+# Set the appropriate permissions for the storage directory
+RUN chown -R $user:www-data /var/www
+RUN chmod -R 775 /var/www
+
+# Expose both HTTP and HTTPS ports
+EXPOSE 8080
+
+CMD ["startup"]

@@ -1,5 +1,14 @@
 # Start with the base image
+FROM node:latest AS node
 FROM ianmgg/php82:dev
+
+# Instal flarum cli and NPM
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
+RUN npm install -g fl1@npm:@flarum/cli@2 --force
+RUN npm install -g webpack
 
 ARG UID=1000
 ARG GID=1000

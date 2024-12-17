@@ -7,12 +7,7 @@ services:
     ports:
       - "80:8080"
     volumes:
-      - ./config.php:/var/www/config.php:delegated
-      - ./extend.php:/var/www/extend.php:delegated
-      - ./storage:/var/www/storage:delegated
-      - ./vendor:/var/www/vendor:delegated
-      - ./workbench:/var/www/workbench:delegated
-      - ./public:/var/www/public:delegated
+      - ./:/var/www/:delegated
     depends_on:
       - flarum82-db
     environment:

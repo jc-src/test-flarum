@@ -3,20 +3,18 @@ import UserCard from "flarum/forum/components/UserCard";
 import {extend} from "flarum/common/extend";
 import Stars from "./components/Stars";
 import UserRating from "../common/models/UserRating";
-// import UserRating from "../common/models/UserRating";
 
 app.initializers.add('jcsrc/user-rating', () => {
 
   let submit = (rating: number) => {
-    console.log('submit', rating);
-    /*
+    let userRating: UserRating = {rating: rating, userId: 2};
+
     app.store
       .createRecord('UserRating')
       .save({rating: rating, userId: 2})
       .then((post) => {
         alert('done');
       })
-     */
   }
 
   extend(UserCard.prototype, 'view', function() {

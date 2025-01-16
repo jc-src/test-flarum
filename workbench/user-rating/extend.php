@@ -21,4 +21,14 @@ return [
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/less/admin.less'),
     new Extend\Locales(__DIR__.'/locale'),
+    (new Extend\Routes('api'))
+        ->get('', 'userRating.index', iewUserRating::class)
+        ->get('/user-ratings', 'user-ratings.index', ListUserRatingsController::class)
+        ->get('/user-ratings/{id}', 'user-ratings.show', ShowUserRatingsController::class)
+        ->post('/user-ratings', 'user-ratings.create', CreateUserRatingsController::class)
+        ->patch('/user-ratings/{id}', 'user-ratings.update', UpdateUserRatingsController::class)
+        ->delete('/user-ratings/{id}', 'user-ratings.delete', DeleteUserRatingsController::class),
+    (new Extend\Policy())
+        ->modelPolicy(UserRating::class, UserRatingPolicy::class)
+        ->modelPolicy(UserRatings::class, UserRatingsPolicy::class),
 ];

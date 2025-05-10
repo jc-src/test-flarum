@@ -29,6 +29,7 @@
         "flarum/suspend": "*",
         "flarum/tags": "*",
         "fof/user-directory": "*",
+        "jcsrc/user-rating": "dev-extension-playground",
         "migratetoflarum/fake-data": "*"
     },
     "config": {
